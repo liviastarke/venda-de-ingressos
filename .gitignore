@@ -1,0 +1,9 @@
+# exclude compilations
+a.out
+# C- is my personal prefix for C binaries
+C-*
+
+# don't ignore files ending in .c or .h
+!*.[ch]
+!.gitignore
+
