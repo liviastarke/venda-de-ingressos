@@ -8,12 +8,12 @@
 //
 // filas são circulares, pilhas são vetores
 
+#include "cinema.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-
-#include "cinema.h"
 
 int main(){
 	printf("\nBem vindo ao sistema de venda de ingressos CineCapi!\n\n");
