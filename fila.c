@@ -1,16 +1,6 @@
+#include "fila.h"
+
 #include <stdio.h>
-#include <stdlib.h>
-
-#include "cliente.h"
-
-#define QUEUE_SIZE 20
-
-typedef struct FilaCliente{
-	Cliente * items[QUEUE_SIZE];
-	int front;
-	int back;
-	int qtd;
-}FilaCliente;
 
 void init_fila(FilaCliente * fila){
 	fila->front = 0;
@@ -27,7 +17,7 @@ int cheia_fila(FilaCliente * fila){
 }
 
 int tamanho(FilaCliente * fila){
-	if (vazia_fila(fila)){
+	if (fila_vazia(fila)){
 		printf("fila vazia\n");
 		return 0;
 	} else {
@@ -66,12 +56,12 @@ Cliente * desenfileira(FilaCliente * fila){
 	Cliente * item;
 	if (fila_vazia(fila)){
 		printf("fila vazia\n");
-		return -1;
+		return NULL;
 	}
 	item = fila->items[fila->front];
 	fila->front = (fila->front + 1) % QUEUE_SIZE;
 	fila->qtd--;
-	printf("desenfileirado item [%d]\n", item);
+	printf("desenfileirado item [%p]\n", item);
 	return item;
 }
 
@@ -96,39 +86,3 @@ void check_func(FilaCliente * fila){
 		printf("Houve um erro no cálculo do tamanho!!!\n");
 	}
 }
-
-void check_alloc_err(void *pointer){
-    if (pointer == NULL){
-        printf("Foi detectado um erro.\n");
-        exit(EXIT_FAILURE); // terminar o programa com erro
-    }
-}
-
-// int main(){
-// 	FilaCliente fila;
-// 	init_fila(&fila);
-// 	void check_func(FilaCliente * fila);
-
-// 	//printf("vazia? %d\n", fila_vazia(&fila)); // 1
-// 	for (int i = 0; i < 10; i++){
-// 		enfileira(&fila, i+1);
-// 	}
-// 	//printf("vazia? %d\n", fila_vazia(&fila)); // 0
-// 	print_fila(&fila);
-// 	void check_func(FilaCliente * fila);
-
-// 	for (int i = 0; i < 10; i++){
-// 		desenfileira(&fila);
-// 	}
-// 	print_fila(&fila);
-// 	void check_func(FilaCliente * fila);
-
-// 	for (int i = 0; i < 10; i++){
-// 		enfileira(&fila, i+1);
-// 	}
-// 	print_fila(&fila);
-// 	void check_func(FilaCliente * fila);
-
-// 	return 0;
-// }
-

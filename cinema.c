@@ -44,9 +44,6 @@ int main(){
 			printf("Opção inválida! Escolha uma opção válida! (•ˋ _ ˊ•)\n");
 			break;
 		}
-		printf("\nPressione ENTER para continuar");
-		getchar(); // travar até resposta
-		getchar();
 	}
 	return 0;
 }
@@ -71,4 +68,17 @@ void print_ingresso(Ingresso * ingresso){
 	printf("\"%s\" - Sala %d\t", ingresso->nome, ingresso->sala_de_exibicao);
 	printf("-> R$%.2f\t", ingresso->preco);
 	printf("%s", ctime(&ingresso->horario_da_secao));
+}
+
+void check_alloc_err(void * pointer){
+    if (pointer == NULL){
+        printf("Foi detectado um erro.\n");
+        exit(EXIT_FAILURE); // terminar o programa com erro
+    }
+}
+
+void esperar(){ // travar até resposta
+	printf("\nPressione ENTER para continuar");
+	getchar();
+	getchar();
 }
