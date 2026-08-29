@@ -6,9 +6,22 @@
 #include "pilha.h"
 #include "fila.h"
 
+#include <stdlib.h>
+
+Ingresso _ingresso_nulo = {"", 0, 0, 0};
+Ingresso * INGRESSO_NULO = &_ingresso_nulo;
+
+
+Ingresso * criar_ingresso(char * nome, int sala_de_exibicao, time_t horario_de_exibicao, float preco);
+Cliente * criar_cliente(char * nome, int idade, Ingresso * ingresso);
+
 void empilhar_ingressos(PilhaIngresso * pilha, Ingresso * filme);
 void print_ingressos(PilhaIngresso * pilha);
 void print_ingresso(Ingresso * ingresso);
+
+FilaCliente * receber_clientes();
+void print_clientes(FilaCliente * fila);
+void print_cliente(Cliente * cliente);
 
 void esperar();
 void check_alloc_err(void * pointer);

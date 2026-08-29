@@ -20,13 +20,23 @@ int main(){
 	
 	time_t hora = time(NULL);
 	Ingresso filmeA = {"Titanic", 1, hora, 19.9};
-	PilhaIngresso * pilhaA = (PilhaIngresso *) malloc(sizeof(PilhaIngresso)); //init_stack(pilhaA);
+	PilhaIngresso * pilhaA = (PilhaIngresso *) malloc(sizeof(PilhaIngresso));
+	PilhaIngresso * pilhaB = (PilhaIngresso *) malloc(sizeof(PilhaIngresso));
+	PilhaIngresso * pilhaC = (PilhaIngresso *) malloc(sizeof(PilhaIngresso));
 	empilhar_ingressos(pilhaA, &filmeA);
+
+	FilaCliente * filaEntrada = NULL;
+	FilaCliente * filaA = (FilaCliente *) malloc(sizeof(FilaCliente));
+	FilaCliente * filaB = (FilaCliente *) malloc(sizeof(FilaCliente));
+	FilaCliente * filaC = (FilaCliente *) malloc(sizeof(FilaCliente));
+	init_fila(filaA);
+	init_fila(filaB);
+	init_fila(filaC);
 
 	int opt = 1;
 	while(opt != 0){
 		printf("------------------------------\nO que deseja fazer hoje?\n\n");
-		printf("0. Sair\n1. Abrir cinema para clientes\n2. Exibir pilhas de ingressos\n\n");
+		printf("0. Sair\n1. Abrir cinema para clientes\n2. Exibir pilhas de ingressos\n3. Exibir filas\n\n");
 		scanf("%d", &opt);
 
 		switch(opt){
@@ -35,10 +45,17 @@ int main(){
 			break;
 		case 1:
 			printf("Abrindo as portas...\nFormou-se uma fila!\n");
-			// preencher clientes aqui
+			filaEntrada = receber_clientes();
+			print_clientes(filaEntrada);
 			break;
 		case 2:
 			print_ingressos(pilhaA);
+			break;
+		case 3:
+			print_clientes(filaEntrada);
+			print_clientes(filaA);
+			print_clientes(filaB);
+			print_clientes(filaC);
 			break;
 		default:
 			printf("Opção inválida! Escolha uma opção válida! (•ˋ _ ˊ•)\n");
@@ -46,6 +63,17 @@ int main(){
 		}
 	}
 	return 0;
+}
+
+FilaCliente * receber_clientes(){
+	FilaCliente * fila = malloc(sizeof(FilaCliente));
+	init_fila(fila);
+	Cliente * novo_cliente = criar_cliente("Lívia Sarah", 19, INGRESSO_NULO);
+//	strcpy(novo_cliente->nome, "Lívia Sarah");
+//	novo_cliente->idade = 19;
+//	novo_cliente->ingresso = INGRESSO_NULO;
+	enfileira(fila, novo_cliente);
+	return fila;
 }
 
 void empilhar_ingressos(PilhaIngresso * pilha, Ingresso * filme){
@@ -64,10 +92,43 @@ void print_ingressos(PilhaIngresso * pilha){
 	}
 }
 
+void print_clientes(FilaCliente * fila){
+	if (fila == NULL || fila_vazia(fila)){
+		printf("Fila vazia\n");
+		return;
+	}
+
+	for (int i = fila->front; i <= fila->back; i++){
+		print_cliente(fila->items[i]);
+	}
+}
+
 void print_ingresso(Ingresso * ingresso){
+	if (ingresso == INGRESSO_NULO){
+		printf("Sem ingresso\n");
+		return;
+	}
+
 	printf("\"%s\" - Sala %d\t", ingresso->nome, ingresso->sala_de_exibicao);
 	printf("-> R$%.2f\t", ingresso->preco);
 	printf("%s", ctime(&ingresso->horario_da_secao));
+}
+
+void print_cliente(Cliente * cliente){
+	printf("%s, %d anos\tIngresso: ", cliente->nome, cliente->idade);
+	print_ingresso(cliente->ingresso);
+}
+
+Ingresso * criar_ingresso(char * nome, int sala_de_exibicao, time_t horario_de_exibicao, float preco){
+	// TODO: prioridade baixa
+}
+
+Cliente * criar_cliente(char * nome, int idade, Ingresso * ingresso){
+	Cliente * novo_cliente = malloc(sizeof(Cliente));
+	strcpy(novo_cliente->nome, nome);
+        novo_cliente->idade = idade;
+        novo_cliente->ingresso = ingresso;
+	return novo_cliente;
 }
 
 void check_alloc_err(void * pointer){
