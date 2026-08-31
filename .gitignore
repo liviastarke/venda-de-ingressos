@@ -1,7 +1,9 @@
 # exclude compilations
 a.out
-# C- is my personal prefix for C binaries
+# C- is my personal prefix for Compiled binaries
 C-*
+# exclude object files
+*.o
 
 # don't ignore files ending in .c or .h
 !*.[ch]

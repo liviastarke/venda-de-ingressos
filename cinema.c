@@ -36,7 +36,7 @@ int main(){
 	int opt = 1;
 	while(opt != 0){
 		printf("------------------------------\nO que deseja fazer hoje?\n\n");
-		printf("0. Sair\n1. Abrir cinema para clientes\n2. Exibir pilhas de ingressos\n3. Exibir filas\n\n");
+		printf("0. Sair\n1. Abrir cinema para clientes\n2. Exibir pilhas de ingressos\n3. Exibir filas\n4. Vender ingresso\n\n");
 		scanf("%d", &opt);
 
 		switch(opt){
@@ -57,6 +57,9 @@ int main(){
 			print_clientes(filaB);
 			print_clientes(filaC);
 			break;
+		case 4:
+			//vender_ingresso();
+			break;
 		default:
 			printf("Opção inválida! Escolha uma opção válida! (•ˋ _ ˊ•)\n");
 			break;
@@ -65,13 +68,12 @@ int main(){
 	return 0;
 }
 
+//vender_ingresso(){}
+
 FilaCliente * receber_clientes(){
 	FilaCliente * fila = malloc(sizeof(FilaCliente));
 	init_fila(fila);
-	Cliente * novo_cliente = criar_cliente("Lívia Sarah", 19, INGRESSO_NULO);
-//	strcpy(novo_cliente->nome, "Lívia Sarah");
-//	novo_cliente->idade = 19;
-//	novo_cliente->ingresso = INGRESSO_NULO;
+	Cliente * novo_cliente = criar_cliente("Lívia", 19, INGRESSO_NULO);
 	enfileira(fila, novo_cliente);
 	return fila;
 }
