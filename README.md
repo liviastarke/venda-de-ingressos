@@ -8,26 +8,29 @@
 
 - [x] Opções de pilha dentro do programa
 
-- [ ] Opções de fila dentro do programa
+- [x] Opções de fila dentro do programa
 
-- [ ] Makefile para facilitar minha vida
+- [x] Makefile para facilitar minha vida
+
+- [ ] Completar operações
+
+- [ ] Terminar a interface
 
 
 ## Instruções de compilação
 
-Compilar e rodar:
+Compilar e rodar (inclui símbolos para debug):
 
 ```bash
-gcc cinema.c pilha.c fila.c -o C-cinema
+make
 ./C-cinema
 ```
 
-Para debugar:
+O arquivo binário C-cinema é excluído pelo .gitignore. Para excluir os arquivos de compilação:
 
 ```bash
-gcc cinema.c pilha.c fila.c -o C-cinema -g
-gdb C-cinema
+make clean
 ```
 
-O arquivo binário C-cinema é excluído pelo .gitignore.
+O Makefile não é ideal, a ser melhorado.
 

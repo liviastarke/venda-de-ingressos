@@ -68,7 +68,15 @@ int main(){
 	return 0;
 }
 
-//vender_ingresso(){}
+/**
+ * Como fazer a fila ser decidida de acordo com o ingresso?
+ * Devo transformar as filas de filmes separadas em um único vetor?
+ */
+//vender_ingresso(FilaCliente filaEntrada, PilhaIngresso pilha, FilaCliente filaDestino){
+//	Cliente * cliente = desenfileira(filaEntrada);
+//	cliente->ingresso = pop(pilha);
+//	enfileira(cliente, filaDestino);
+//}
 
 FilaCliente * receber_clientes(){
 	FilaCliente * fila = malloc(sizeof(FilaCliente));
