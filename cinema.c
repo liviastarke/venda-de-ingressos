@@ -19,11 +19,19 @@ int main(){
 	printf("\nBem vindo ao sistema de venda de ingressos CineCapi!\n\n");
 	
 	time_t hora = time(NULL);
-	Ingresso filmeA = {"Titanic", 1, hora, 19.9};
-	PilhaIngresso * pilhaA = (PilhaIngresso *) malloc(sizeof(PilhaIngresso));
-	PilhaIngresso * pilhaB = (PilhaIngresso *) malloc(sizeof(PilhaIngresso));
-	PilhaIngresso * pilhaC = (PilhaIngresso *) malloc(sizeof(PilhaIngresso));
-	empilhar_ingressos(pilhaA, &filmeA);
+	Ingresso filmes[3] = {
+		{"Cyrano de Bergerac", 1, hora, 14.99},
+		{"Vidas ao Vento",     2, hora, 23.89},
+		{"Quarto de Guerra",   3, hora, 19.90},
+	};
+
+	PilhaIngresso * ingressos = (PilhaIngresso *) malloc(sizeof(PilhaIngresso)*3);
+	//PilhaIngresso * pilhaA  = (PilhaIngresso *) malloc(sizeof(PilhaIngresso));
+	//PilhaIngresso * pilhaB  = (PilhaIngresso *) malloc(sizeof(PilhaIngresso));
+	//PilhaIngresso * pilhaC  = (PilhaIngresso *) malloc(sizeof(PilhaIngresso));
+	for(int i = 0; i < 3; i++){
+		empilhar_ingressos(&ingressos[i], &filmes[i]);
+	}
 
 	FilaCliente * filaEntrada = NULL;
 	FilaCliente * filaA = (FilaCliente *) malloc(sizeof(FilaCliente));
@@ -37,7 +45,7 @@ int main(){
 	while(opt != 0){
 		printf("------------------------------\nO que deseja fazer hoje?\n\n");
 		printf("0. Sair\n1. Abrir cinema para clientes\n2. Exibir pilhas de ingressos\n3. Exibir filas\n4. Vender ingresso\n\n");
-		scanf("%d", &opt);
+		scanf("%d", &opt); // TODO: validação de entrada
 
 		switch(opt){
 		case 0:
@@ -49,7 +57,11 @@ int main(){
 			print_clientes(filaEntrada);
 			break;
 		case 2:
-			print_ingressos(pilhaA);
+			for(int i = 0; i < 3; i++){
+				printf("--------\nPilha %d:\n", i);
+				print_ingressos(&ingressos[i]);
+				printf("\n");
+			}
 			break;
 		case 3:
 			print_clientes(filaEntrada);
@@ -58,7 +70,9 @@ int main(){
 			print_clientes(filaC);
 			break;
 		case 4:
-			//vender_ingresso();
+			int num_pilha;
+			scanf("%d", &num_pilha); // TODO: validação de entrada
+			vender_ingresso(filaEntrada, &ingressos[num_pilha], filaA); // TODO: trocar filaA por vetor -> fila[num_pilha] correspondente.
 			break;
 		default:
 			printf("Opção inválida! Escolha uma opção válida! (•ˋ _ ˊ•)\n");
@@ -72,11 +86,17 @@ int main(){
  * Como fazer a fila ser decidida de acordo com o ingresso?
  * Devo transformar as filas de filmes separadas em um único vetor?
  */
-//vender_ingresso(FilaCliente filaEntrada, PilhaIngresso pilha, FilaCliente filaDestino){
-//	Cliente * cliente = desenfileira(filaEntrada);
-//	cliente->ingresso = pop(pilha);
-//	enfileira(cliente, filaDestino);
-//}
+void vender_ingresso(FilaCliente * filaEntrada, PilhaIngresso * pilha, FilaCliente * filaDestino){
+	Cliente * cliente = desenfileira(filaEntrada);
+	if (cliente == NULL){
+		printf("Não há mais clientes.\n");
+		return;
+	}
+	cliente->ingresso = pop(pilha);
+	enfileira(filaDestino, cliente);
+	printf("Venda realizada!\n");
+	print_cliente(cliente);
+}
 
 FilaCliente * receber_clientes(){
 	FilaCliente * fila = malloc(sizeof(FilaCliente));

@@ -15,6 +15,8 @@ Ingresso * INGRESSO_NULO = &_ingresso_nulo;
 Ingresso * criar_ingresso(char * nome, int sala_de_exibicao, time_t horario_de_exibicao, float preco);
 Cliente * criar_cliente(char * nome, int idade, Ingresso * ingresso);
 
+void vender_ingresso(FilaCliente * filaEntrada, PilhaIngresso * pilha, FilaCliente * filaDestino);
+
 void empilhar_ingressos(PilhaIngresso * pilha, Ingresso * filme);
 void print_ingressos(PilhaIngresso * pilha);
 void print_ingresso(Ingresso * ingresso);
