@@ -18,7 +18,7 @@ int cheia_fila(FilaCliente * fila){
 
 int tamanho(FilaCliente * fila){
 	if (fila_vazia(fila)){
-		printf("fila vazia\n");
+		printf("Fila vazia\n");
 		return 0;
 	} else {
 		int size;
@@ -34,17 +34,16 @@ int tamanho(FilaCliente * fila){
 
 Cliente * primeiro(FilaCliente * fila){
 	if (fila_vazia(fila)){
-		printf("fila vazia\n");
+		printf("FIRST FAILED: fila vazia\n");
 		return NULL;
 	}
 	Cliente * ret = fila->items[fila->front];
-	printf("primeiro: %p\n", ret);
 	return ret;
 }
 
 void enfileira(FilaCliente * fila, Cliente * valor){
 	if (cheia_fila(fila)){
-		printf("pilha cheia\n");
+		printf("ENQUEUE FAILED: fila cheia\n");
 	} else {
 		fila->back = (fila->back + 1) % QUEUE_SIZE;
 		fila->qtd++;
@@ -55,20 +54,19 @@ void enfileira(FilaCliente * fila, Cliente * valor){
 Cliente * desenfileira(FilaCliente * fila){
 	Cliente * item;
 	if (fila_vazia(fila)){
-		printf("fila vazia\n");
+		printf("DEQUEUE FAILED: fila vazia\n");
 		return NULL;
 	}
 	item = fila->items[fila->front];
 	fila->front = (fila->front + 1) % QUEUE_SIZE;
 	fila->qtd--;
-	printf("desenfileirado item [%p]\n", item);
 	return item;
 }
 
 void print_fila(FilaCliente * fila){
 	printf("-----------------------\nFila:\n");
 	if(fila_vazia(fila)){
-		printf("fila vazia\n");
+		printf("Fila vazia\n");
 		return;
 	}
 
@@ -78,7 +76,7 @@ void print_fila(FilaCliente * fila){
 	printf("-----------------------\n");
 }
 
-// checa se tamanho armazenado e tamanho calculado batem
+// Checa se tamanho armazenado e tamanho calculado batem (fiz por diversão)
 void check_func(FilaCliente * fila){
 	int tam = tamanho(fila);
 	printf("\n-> tam = %d = %d\n", tam, fila->qtd);

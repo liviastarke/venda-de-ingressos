@@ -10,6 +10,8 @@
 
 #include "cinema.h"
 
+#include "io.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -20,11 +22,10 @@
 int main(){
 	printf("\nBem vindo ao sistema de venda de ingressos CineCapi!\n\n");
 	
-	time_t hora = time(NULL);
 	Ingresso filmes[NUM_FILMES] = {
-		{"Cyrano de Bergerac", 1, hora, 14.99},
-		{"Vidas ao Vento",     2, hora, 23.89},
-		{"Quarto de Guerra",   3, hora, 19.90},
+		{"Cyrano de Bergerac", 1, 1791063000, 14.99},
+		{"Vidas ao Vento",     2, 1790978400, 23.89},
+		{"Quarto de Guerra",   3, 1791061200, 19.90},
 	};
 
 	PilhaIngresso * ingressos = (PilhaIngresso *) malloc(sizeof(PilhaIngresso)*NUM_FILMES);
@@ -45,7 +46,7 @@ int main(){
 	while(opt != 0){
 		printf("------------------------------\nO que deseja fazer hoje?\n\n");
 		printf("0. Sair\n1. Abrir cinema para clientes\n2. Exibir pilhas de ingressos\n3. Exibir filas\n4. Vender ingresso\n\n");
-		scanf("%d", &opt); // TODO: validação de entrada
+		opt = get_opt();
 
 		switch(opt){
 
@@ -82,7 +83,7 @@ int main(){
 			break;
 
 		case 4:
-			if (filaEntrada == NULL || vazia_fila(filaEntrada)){
+			if (filaEntrada == NULL || fila_vazia(filaEntrada)){
 				printf("Não há clientes para quem vender ingressos!\n");
 				esperar();
 				break;
@@ -90,7 +91,7 @@ int main(){
 
 			int num_pilha;
 			printf("Digite o número da pilha de ingressos do filme (1 a %d): ", NUM_FILMES);
-			scanf("%d", &num_pilha); // TODO: validação de entrada
+			num_pilha = get_opt();
 
 			if (num_pilha < 1 || num_pilha > NUM_FILMES){
 				printf("Pilha inexistente. Não foi possível realizar a venda.\n");
@@ -137,7 +138,7 @@ void vender_ingresso(FilaCliente * filaEntrada, PilhaIngresso * pilha, FilaClien
 	}
 
 	enfileira(filaDestino, cliente);
-	printf("Venda realizada!\n Cliente: ");
+	printf("Venda realizada!\nCliente: ");
 	print_cliente(cliente);
 	esperar();
 }
@@ -218,8 +219,3 @@ void check_alloc_err(void * pointer){
     }
 }
 
-void esperar(){ // travar até resposta
-	printf("\nPressione ENTER para continuar");
-	getchar();
-	getchar();
-}
