@@ -15,31 +15,31 @@
 #include <string.h>
 #include <time.h>
 
+#define NUM_FILMES 3
+
 int main(){
 	printf("\nBem vindo ao sistema de venda de ingressos CineCapi!\n\n");
 	
 	time_t hora = time(NULL);
-	Ingresso filmes[3] = {
+	Ingresso filmes[NUM_FILMES] = {
 		{"Cyrano de Bergerac", 1, hora, 14.99},
 		{"Vidas ao Vento",     2, hora, 23.89},
 		{"Quarto de Guerra",   3, hora, 19.90},
 	};
 
-	PilhaIngresso * ingressos = (PilhaIngresso *) malloc(sizeof(PilhaIngresso)*3);
-	//PilhaIngresso * pilhaA  = (PilhaIngresso *) malloc(sizeof(PilhaIngresso));
-	//PilhaIngresso * pilhaB  = (PilhaIngresso *) malloc(sizeof(PilhaIngresso));
-	//PilhaIngresso * pilhaC  = (PilhaIngresso *) malloc(sizeof(PilhaIngresso));
-	for(int i = 0; i < 3; i++){
+	PilhaIngresso * ingressos = (PilhaIngresso *) malloc(sizeof(PilhaIngresso)*NUM_FILMES);
+
+	for(int i = 0; i < NUM_FILMES; i++){
 		empilhar_ingressos(&ingressos[i], &filmes[i]);
 	}
 
 	FilaCliente * filaEntrada = NULL;
-	FilaCliente * filaA = (FilaCliente *) malloc(sizeof(FilaCliente));
-	FilaCliente * filaB = (FilaCliente *) malloc(sizeof(FilaCliente));
-	FilaCliente * filaC = (FilaCliente *) malloc(sizeof(FilaCliente));
-	init_fila(filaA);
-	init_fila(filaB);
-	init_fila(filaC);
+
+	FilaCliente * filasFilmes = (FilaCliente *) malloc(sizeof(FilaCliente)*NUM_FILMES);
+
+	for(int i = 0; i < NUM_FILMES; i++){
+		init_fila(&filasFilmes[i]);
+	}
 
 	int opt = 1;
 	while(opt != 0){
@@ -48,60 +48,110 @@ int main(){
 		scanf("%d", &opt); // TODO: validação de entrada
 
 		switch(opt){
+
 		case 0:
 			printf("Saindo...\n");
 			break;
+
 		case 1:
 			printf("Abrindo as portas...\nFormou-se uma fila!\n");
 			filaEntrada = receber_clientes();
 			print_clientes(filaEntrada);
+			esperar();
 			break;
+
 		case 2:
-			for(int i = 0; i < 3; i++){
-				printf("--------\nPilha %d:\n", i);
+			for(int i = 0; i < NUM_FILMES; i++){
+				printf("--------\nPilha %d:\n", i+1);
 				print_ingressos(&ingressos[i]);
 				printf("\n");
+				esperar();
 			}
 			break;
+
 		case 3:
+			printf("--------\nFila de entrada:\n");
 			print_clientes(filaEntrada);
-			print_clientes(filaA);
-			print_clientes(filaB);
-			print_clientes(filaC);
+			printf("\n");
+			for(int i = 0; i < NUM_FILMES; i++){
+				printf("--------\nFila %d - Filme \"%s\":\n", i+1, filmes[i].nome);
+				print_clientes(&filasFilmes[i]);
+				printf("\n");
+			}
+			esperar();
 			break;
+
 		case 4:
+			if (filaEntrada == NULL || vazia_fila(filaEntrada)){
+				printf("Não há clientes para quem vender ingressos!\n");
+				esperar();
+				break;
+			}
+
 			int num_pilha;
+			printf("Digite o número da pilha de ingressos do filme (1 a %d): ", NUM_FILMES);
 			scanf("%d", &num_pilha); // TODO: validação de entrada
-			vender_ingresso(filaEntrada, &ingressos[num_pilha], filaA); // TODO: trocar filaA por vetor -> fila[num_pilha] correspondente.
+
+			if (num_pilha < 1 || num_pilha > NUM_FILMES){
+				printf("Pilha inexistente. Não foi possível realizar a venda.\n");
+				esperar();
+				break;
+			}
+			num_pilha--;
+			vender_ingresso(filaEntrada, ingressos+num_pilha, filasFilmes+num_pilha);
 			break;
+
 		default:
 			printf("Opção inválida! Escolha uma opção válida! (•ˋ _ ˊ•)\n");
+			esperar();
 			break;
 		}
 	}
+
+	free(ingressos);
+
+	free(filaEntrada);
+
+	if (filasFilmes != NULL)
+		free(filasFilmes);
+
 	return 0;
 }
 
-/**
- * Como fazer a fila ser decidida de acordo com o ingresso?
- * Devo transformar as filas de filmes separadas em um único vetor?
- */
 void vender_ingresso(FilaCliente * filaEntrada, PilhaIngresso * pilha, FilaCliente * filaDestino){
+
 	Cliente * cliente = desenfileira(filaEntrada);
+
 	if (cliente == NULL){
 		printf("Não há mais clientes.\n");
 		return;
 	}
+
 	cliente->ingresso = pop(pilha);
+
+	if (cliente->ingresso == NULL){
+		printf("Ingressos esgotados! Não foi possível realizar a venda.\nCliente insatisfeito! Você perdeu um cliente!\n");
+		print_cliente(cliente);
+		esperar();
+		return;
+	}
+
 	enfileira(filaDestino, cliente);
-	printf("Venda realizada!\n");
+	printf("Venda realizada!\n Cliente: ");
 	print_cliente(cliente);
+	esperar();
 }
 
 FilaCliente * receber_clientes(){
 	FilaCliente * fila = malloc(sizeof(FilaCliente));
 	init_fila(fila);
-	Cliente * novo_cliente = criar_cliente("Lívia", 19, INGRESSO_NULO);
+	Cliente * novo_cliente = criar_cliente("Ana", 19, NULL);
+	enfileira(fila, novo_cliente);
+	novo_cliente = criar_cliente("João", 31, NULL);
+	enfileira(fila, novo_cliente);
+	novo_cliente = criar_cliente("Armando", 76, NULL);
+	enfileira(fila, novo_cliente);
+	novo_cliente = criar_cliente("Helena", 24, NULL);
 	enfileira(fila, novo_cliente);
 	return fila;
 }
@@ -134,7 +184,7 @@ void print_clientes(FilaCliente * fila){
 }
 
 void print_ingresso(Ingresso * ingresso){
-	if (ingresso == INGRESSO_NULO){
+	if (ingresso == NULL){
 		printf("Sem ingresso\n");
 		return;
 	}
