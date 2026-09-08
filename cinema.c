@@ -111,10 +111,19 @@ int main(){
 
 	free(ingressos);
 
-	free(filaEntrada);
+	// esvaziar_cinema();
 
-	if (filasFilmes != NULL)
-		free(filasFilmes);
+	if (filaEntrada != NULL){
+		while(!fila_vazia(filaEntrada))
+			free(desenfileira(filaEntrada));
+		free(filaEntrada);
+	}
+
+	for(int i = 0; i < NUM_FILMES; i++){
+		while(!fila_vazia(filasFilmes+i))
+			free(desenfileira(filasFilmes+i));
+	}
+	free(filasFilmes);
 
 	return 0;
 }
