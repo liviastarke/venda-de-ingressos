@@ -1,6 +1,8 @@
 # Sistema de venda de ingressos
 
-## A fazer
+> Falta só refinar e escrever o relatório!
+
+## Requisitos
 
 - [x] Pilha
 
@@ -12,9 +14,9 @@
 
 - [x] Makefile para facilitar minha vida
 
-- [ ] Completar operações
+- [x] Completar operações
 
-- [ ] Terminar a interface
+- [x] Terminar a interface
 
 
 ## Instruções de compilação
@@ -32,5 +34,5 @@ O arquivo binário C-cinema é excluído pelo .gitignore. Para excluir os arquiv
 make clean
 ```
 
-O Makefile não é ideal, a ser melhorado.
+O Makefile ainda é bem básico, a ser melhorado. Para compilar sem a flag "-g" rodar `make CFLAGS=""`
 
