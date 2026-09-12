@@ -111,7 +111,7 @@ int main(){
 
 	free(ingressos);
 
-	// esvaziar_cinema();
+	// Esvaziar cinema
 
 	if (filaEntrada != NULL){
 		while(!fila_vazia(filaEntrada))
@@ -209,9 +209,8 @@ void print_cliente(Cliente * cliente){
 	print_ingresso(cliente->ingresso);
 }
 
-Ingresso * criar_ingresso(char * nome, int sala_de_exibicao, time_t horario_de_exibicao, float preco){
-	// TODO: prioridade baixa
-}
+// TODO: prioridade baixa
+// Ingresso * criar_ingresso(char * nome, int sala_de_exibicao, time_t horario_de_exibicao, float preco){
 
 Cliente * criar_cliente(char * nome, int idade, Ingresso * ingresso){
 	Cliente * novo_cliente = malloc(sizeof(Cliente));

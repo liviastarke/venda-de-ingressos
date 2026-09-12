@@ -8,7 +8,7 @@
 
 #include <stdlib.h>
 
-Ingresso * criar_ingresso(char * nome, int sala_de_exibicao, time_t horario_de_exibicao, float preco);
+// Ingresso * criar_ingresso(char * nome, int sala_de_exibicao, time_t horario_de_exibicao, float preco); // Os ingressos foram criados de outra forma
 Cliente * criar_cliente(char * nome, int idade, Ingresso * ingresso);
 
 void vender_ingresso(FilaCliente * filaEntrada, PilhaIngresso * pilha, FilaCliente * filaDestino);
@@ -21,7 +21,6 @@ FilaCliente * receber_clientes();
 void print_clientes(FilaCliente * fila);
 void print_cliente(Cliente * cliente);
 
-void esperar();
 void check_alloc_err(void * pointer);
 
 #endif
