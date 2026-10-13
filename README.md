@@ -1,6 +1,8 @@
 # Sistema de venda de ingressos
 
-> Falta só refinar e escrever o relatório!
+Trabalho para a disciplina de Estrutura de Dados e Algoritmos. Abaixo são listados os requisitos e instruções 
+para compilação. Detalhes sobre a funcionalidade, estrutura dos arquivos e implementação, encontram-se em 
+*relatorio.md*.
 
 ## Requisitos
 
@@ -35,4 +37,6 @@ make clean
 ```
 
 O Makefile ainda é bem básico, a ser melhorado. Para compilar sem a flag "-g" rodar `make CFLAGS=""`
+
+Mais detalhes sobre [Make e Makefile aqui](https://www.gnu.org/software/make/manual/make.html).
 
